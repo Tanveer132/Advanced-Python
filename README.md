@@ -9,6 +9,9 @@ Python is a popular programming language which enables scripting, functional pro
 ## At the end of this course, you will be able to create:
 
   programs using Object Oriented approach
+  
   programs that can connect to MongoDB, MySQL databases
+  
   programs that interacts with Excel files and CSV files
+  
   basic web programs using Django and Flask frameworks
