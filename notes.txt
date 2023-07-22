@@ -1,0 +1,222 @@
+-------------------Day 1------------------
+Topics - Introduction to OOPS, Encapsulation, Attributes and Methods
+
+OOP -> style of programming which allows to bind the data and behaviour together.
+class - is a blueprint. Logical entity
+Object - is instance which referes to the class. Real world entity
+
+Constructor -
+def __init__() is special method in python which invokes automatically and called as Constructor. 
+IT is an special method i.e. declared between two underscores.
+
+Destructor - 
+is a special method used to invoke automatically when object is removed from memory.
+def __del__(self):
+        print('Deleting the object')
+p1=Product(10000,'Apple')
+del p1
+
+Encapsulation -
+self.__variable = Adding double underscore in front of attributes.
+Accessing private variables as 'object._ClassName__VariableName' or by setter(mutators) getter(Accessors) methods.
+
+Abstraction - 
+methods declared inside class shows behaviour of object.
+method - self is mandatory parameter. It is invoked only on an object.
+functions - parameters are not mandatory. can invoked by function name without object.
+                    
+Methods and Attributes ->
+
+class Attributes - can be declared outside __init__ in class. self is not required. Such attributes are shared with all objects in same memory.
+        e.g. 
+            class Employee
+                __Emp Id = 1111
+                def __init__(self,empId, name):
+                    ........
+    
+self = refers to Object
+cls = refers to class
+
+class methods - Don't required to create object to invoke those methods. First parameter should be 'cls'. 
+                Used to access and manipulate class variables.
+            e.g. class Employee:
+                    increament = 0
+
+                @classmethod
+                def enableIncreament(cls):
+                    class.increament = 5000
+                @classmethod
+                def disableIncreament(cls):
+                    class.increament = 0
+                
+                Emp1 = Employee()
+                Employee.enableIncreament()
+
+Static methods - Generic methods which don't required object to invoke. Neither uses cls nor self as first argument.
+                    cannot access class or instance attributes. 
+            e.g. class Employee:
+                    increament = 0
+                    def __init__(self,empId, name):
+                        .........
+                    @staticmethod
+                    def salaryType(empType):
+                        if empType == "Experienced":
+                            return "Premium"
+                        else:
+                            return "Normal"
+
+                emp1 = Employee(1111,"Tanveer")
+                Employee.salaryType("Fresher")
+
+Class attributes, class methods and static methods are accessed using the ClassName without object
+e.g. Employee.enableIncreament() , Employee.increament
+
+-------------------Day 2------------------
+Topics - Aggregation, Association, Inheritance, Custom Exception, Special methods
+
+Aggregation - One class owns another class. represented by diamond symbol. 
+Association - An object is used in any method of the class as a local variable. 
+                
+Inheritance - 
+Smartphone and FeaturePhone 'is a' phone. 
+super() is used to invoke parent class methods. 
+e.g. Access parent class Constructor.
+    class SmartPhone(Phone):
+        def __init__(self, price, brand, camera, os, ram):
+            super().__init__(price, brand, camera)
+
+Types of Inheritance - simple, multilevel, hierarchical, multiple. 
+multiple inheritance - 
+    e.g. class Smartphone(Phone, Product):
+        common methods will have priority from first parent in list.
+
+
+Exception - create exception which inherits Exception (Built-in class)
+class UserNameDoesNotMatch(Exception):
+    def __init__(self,message):
+        super().__init__(message)
+
+if username != "james":
+    raise UserNameDoesNotMatch("Invalid username")
+
+
+Special methods - Overriding inbuilt methods 
+__methodName__ is called as special method
+
+
+----------------------day 3-------------------------
+Topics - Database Programming with Mysql,Database Programming with MongoDB
+
+
+Main folder 'Adv Python'
+Prerequisites softwares - XAMMP, mysql Workbench
+
+Creating virtual environment in 'Adv python' folder ->
+- Open command prompt navigating main folder (shift + right click on Adv python folder)
+- run command to create virtual environment folder(venv) in Adv python
+    >>> python -m venv venv
+- activate vertual environment
+    >>> .\venv\Scripts\Activate.ps1
+
+Establishing mysql connection ->
+- installing mysql-connector-python in activated virtual environment
+    >>>(venv) PS D:\Adv python> pip install mysql.connector.python
+- activate Xammp and start mysql connection.
+- start mysql Workbench. add new connection. It will check automatically from XAMMP. Name the connection and establish.
+- Create new schema e.g. mydb
+- Create table in schema e.g. Computer 
+    Table: computer
+    Columns:
+        idComputer int(11) PK 
+        make varchar(45) 
+        year varchar(45)
+
+Start database programming in python Scripts ->
+import mysql.connector
+#Assume the MySQL server is running on 'localhost', database name is 'mydb' and user is 'root'
+con = mysql.connector.connect(host="localhost", user="root", password="", database="mydb")
+cur = con.cursor() -> is the object used to execute queries, close 
+con.close() -> after executing python script, connection has to be close to avoid collision with other connections to same database.
+cur.commit() -> connection method to commit DML changes in database table. 
+Fetch methods -> should be used after select query. 
+
+* Database Programming with MongoDB -
+NoSQL - Not only SQL -> stores structured, semi structured, unstructured data.
+
+- Installed MongoDB server, MongoDB compass
+- mongoDB compass -> Create Database and collection 
+- Insert in collection -> can insert different structure of data in form of dictionary in same collection.
+- First create database object with help of connection object. Then create collection object with db object.
+- col_obj.find_one() -> get first document
+- col_obj.find() -> get all documents
+- projection or filtering columns -> putting list of keys=1 to get column.
+    docs = collection_obj.find({},{'_id':0,'Name':1,'Age':1})
+- update_one(), update_many()
+- Sorting and limiting can be applied 
+    docs = collection_obj.find({},{'_id':0,'Name':1,'Age':1}).sort("Age",1).limit(2)
+
+
+
+
+
+------------------------day4----------------------------
+Topic - Programming using CGI, Programming using frameworks- django, flask
+
+* Programming using CGI ->
+CGI - Common Gateway Interface -> Gives inbuilt server (URL : http://localhost:8080)
+
+- Create folder cgi-bin. All python scripts should be kept in this folder. Otherwise program code will be displayed instead of Output.
+- run this command to initiate cgi server   
+    >>>python -m http.server --cgi 8080
+- open url http://localhost:8080/cgi-bin/pythonScript.python
+- make changes in code, execute and refresh webpage to see results.
+- cgitb.enable(display = 0,logdir="....\error_log") -> controls to display error on webpage and save error logs in folder path.
+
+* Programming using framework django ->
+
+- django uses MVT architecture (Model-View-Template)
+- Creating project folder to manage files within. This will create all the required configurations and settings.
+    >>> D:\Adv python> django-admin startproject EmployeeManagement
+- navigate to created folder and start django server
+    >>>D:\Adv python> cd EmployeeManagement
+    >>>D:\Adv python> cd EmployeeManagement> python manage.py runserver
+- get server started at -> http://127.0.0.1:8000/
+- Project includes various apps grouped together like for Employee management we may have Emp personal details, SKillset
+- Create app within EmployeeManagement. This will create all the required configurations, imports in folder SkillSet.
+    >>>D:\Adv python> cd EmployeeManagement> python manage.py startapp SKillset
+- In SkillSet folder contains below automatically created scripts ->
+    views.py - we can create functions for views of different pages in apps.
+    urls.py - import CreatedApp(SkillSet).views and map view functions in path 
+    settings.py - contains path of created apps  (the list of INSTALLED_APPS)
+                    contains DATABASE configurations (DATABASES)
+    models.py - create class(to define Table to store data)
+- to maintain html pages create two folders static and templates under app folder(SkillSet)
+    templates - will contain html scripts.
+    static - will contain css scripts
+- Storing data in models ->
+    - in models.py create models (class) which defines table to store data.
+    - generate corresponding sql commands by running below command in terminal
+        >>>D:\Django\EmployeeManagement> python manage.py makemigrations
+    - execute generated sql commands in database by running below
+        >>>D:\Django\EmployeeManagement> python manage.py migrate
+    
+* Programming using framework flask ->
+
+- light-weight framework which does not create any structure of folders for any project.
+- Create development environment for flask server. first navigate to project folder and run command.
+    >>>set FLASK-ENV=development
+- flask server executes app.py or wsgi.py present under project folder. If appname is different then run this command
+    >>>FLASK_APP = app_name
+- @app.route('<url>') -> mapping request url with view function.
+- def homepage -> creating views to display webpage.
+- render_template('html_file') -> used to return html page stored in templates folder.
+
+
+
+
+
+---------------------------day5---------------------------
+Topics - Excel file handling, CSV File handling
+
+* openpyxl ->
+
